@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name:   ubuntu
+spec:
+  containers:
+    - name:    ubuntu
+      image: ubuntu:18.04
+      args: [bash, -c, 'apt-get update; apt-get upgrade; apt-get install -y software-properties-common; add-apt-repository ppa:webupd8team/java -y; apt-get update; apt-get install -y openjdk-8-jdk']
