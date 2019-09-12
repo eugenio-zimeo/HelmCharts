@@ -1,0 +1,54 @@
+<configuration xmlns="urn:activemq" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
+    <core xmlns="urn:activemq:core" xsi:schemaLocation="urn:activemq:core ">
+
+        <cluster-user>exampleUser</cluster-user>
+        <cluster-password>secret</cluster-password><connectors>
+
+
+        <connector name="activemq-activemq-artemis-master-0">tcp://activemq-activemq-artemis-master-0.activemq-activemq-artemis-master.progetto2.svc.cluster.local:61616</connector>
+
+        <connector name="activemq-activemq-artemis-slave-0">tcp://activemq-activemq-artemis-slave-0.activemq-activemq-artemis-slave.progetto2.svc.cluster.local:61616</connector>
+
+
+
+        <connector name="activemq-activemq-artemis-master-1">tcp://activemq-activemq-artemis-master-1.activemq-activemq-artemis-master.progetto2.svc.cluster.local:61616</connector>
+
+        <connector name="activemq-activemq-artemis-slave-1">tcp://activemq-activemq-artemis-slave-1.activemq-activemq-artemis-slave.progetto2.svc.cluster.local:61616</connector>
+
+
+    </connectors>
+
+
+        <cluster-connections>
+            <cluster-connection name="activemq-activemq-artemis">
+                <address>jms</address>
+                <connector-ref>netty-connector</connector-ref>
+                <retry-interval>500</retry-interval>
+                <retry-interval-multiplier>1.1</retry-interval-multiplier>
+                <max-retry-interval>5000</max-retry-interval>
+                <initial-connect-attempts>-1</initial-connect-attempts>
+                <reconnect-attempts>-1</reconnect-attempts>
+
+                <message-load-balancing>ON_DEMAND</message-load-balancing>
+                <max-hops>1</max-hops>
+
+                <static-connectors>
+
+
+                    <connector-ref>activemq-activemq-artemis-master-0</connector-ref>
+
+                    <connector-ref>activemq-activemq-artemis-slave-0</connector-ref>
+
+
+
+                    <connector-ref>activemq-activemq-artemis-master-1</connector-ref>
+
+                    <connector-ref>activemq-activemq-artemis-slave-1</connector-ref>
+
+
+                </static-connectors>
+
+            </cluster-connection>
+        </cluster-connections>
+    </core>
+</configuration>

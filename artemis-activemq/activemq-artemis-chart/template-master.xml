@@ -1,0 +1,14 @@
+<configuration xmlns="urn:activemq" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:activemq /schema/artemis-configuration.xsd">
+    <core xmlns="urn:activemq:core" xsi:schemaLocation="urn:activemq:core ">
+
+        <ha-policy>
+            <replication>
+                <master>
+                    <group-name>to-be-set-by-configure-cluster.sh</group-name>
+                    <!--we need this for auto failback-->
+                    <check-for-live-server>false</check-for-live-server>
+                </master>
+            </replication>
+        </ha-policy>
+    </core>
+</configuration>

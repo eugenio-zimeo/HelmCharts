@@ -53,13 +53,13 @@ spec:
         image: {{ template "artemis.image" . }}
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         imagePullSecrets: {{ toYaml .Values.image.pullSecrets }}
-        command: ["/bin/sh", "/opt/configure-master/configure-cluster.sh"]
+        command: ["/bin/sh", "/opt/configure-master/configure-cluster.sh"] #esegue il comando presente nel configmap
         volumeMounts:
-          - name: config-override
+          - name: config-override #questa è una directory vuota
             mountPath: /var/lib/artemis/etc-override
-          - name: configure-common
+          - name: configure-common #qui c'è template-common
             mountPath: /opt/configure-common
-          - name: configure-master
+          - name: configure-master #qui ci sono template master e configure-master
             mountPath: /opt/configure-master
       containers:
       - name: {{ include "artemis.fullname" . }}
@@ -99,13 +99,13 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
         volumeMounts:
-        - name: data
+        - name: data #questa è persistente
           mountPath: /var/lib/artemis/data
-        - name: config-override
+        - name: config-override #questa è un empty dir
           mountPath: /var/lib/artemis/etc-override
-        - name: configure-common
+        - name: configure-common #qui c'è template common
           mountPath: /opt/configure-common
-        - name: configure-master
+        - name: configure-master #qui c'è template master e configure master
           mountPath: /opt/configure-master
       volumes:
       - name: config-override
