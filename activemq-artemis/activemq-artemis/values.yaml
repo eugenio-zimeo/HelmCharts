@@ -3,9 +3,9 @@ image:
   # image.registry is the repository where the ActiveMQ Artemis image is stored
   registry: docker.io
   # image.repository is the ActiveMQ Artemis image name
-  image: vromero/activemq-artemis
+  repository: adeiasiodq/artemis
   # image.tag is the ActiveMQ Artemis image's tag: https://hub.docker.com/r/vromero/activemq-artemis/tags
-  imageTag: 2.6.2
+  tag: 1.5
   # image.pullPolicy is the ActiveMQ Artemis image's pull policy
   pullPolicy: Always
   # image.pullSecrets optionally specify an array of imagePullSecrets.Secrets must be manually created in the namespace.
@@ -17,7 +17,7 @@ artemisUser: input
 # artemisPassword sets the artemis admin user password
 artemisPassword: input
 
-replicas: 2
+replicas: 1
 
 # antiAffinity sets an anti affinity policy between masters and slaves as either hard or soft, default is hard
 antiAffinity: "soft"
@@ -71,33 +71,4 @@ resources:
 # Probably this is only useful for minikube environments and CI
 loadbalancer:
   enabled: false
-
-## Prometheus Exporters / Metrics
-##
-prometheus:
-
-  ## Prometheus JMX Exporter: exposes the majority of Kafkas metrics
-  jmx:
-    ## Interval at which Prometheus scrapes metrics, note: only used by Prometheus Operator
-    interval: 10s
-
-    ## Timeout at which Prometheus timeouts scrape run, note: only used by Prometheus Operator
-    scrapeTimeout: 10s
-
-    ## Port jmx-exporter exposes Prometheus format metrics to scrape
-    port: 5556
-
-  operator:
-    ## Are you using Prometheus Operator?
-    enabled: false
-
-    serviceMonitor:
-      # Namespace Prometheus is installed in
-      namespace: monitoring
-
-      ## Defaults to whats used if you follow CoreOS [Prometheus Install Instructions](https://github.com/coreos/prometheus-operator/tree/master/helm#tldr)
-      ## [Prometheus Selector Label](https://github.com/coreos/prometheus-operator/blob/master/helm/prometheus/templates/prometheus.yaml#L65)
-      ## [Kube Prometheus Selector Label](https://github.com/coreos/prometheus-operator/blob/master/helm/kube-prometheus/values.yaml#L298)
-      selector:
-        prometheus: kube-prometheus
 

@@ -212,7 +212,7 @@ persistence:
   ## The size of the PersistentVolume to allocate to each Kafka Pod in the StatefulSet. For
   ## production servers this number should likely be much larger.
   ##
-  size: "2Gi"
+  size: "5Gi"
 
   ## The location within the Kafka container where the PV will mount its storage and Kafka will
   ## store its logs.

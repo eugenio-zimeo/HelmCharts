@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/artemis-activemq.iml" filepath="$PROJECT_DIR$/.idea/artemis-activemq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/kafka.iml" filepath="$PROJECT_DIR$/.idea/kafka.iml" />
     </modules>
   </component>
 </project>
