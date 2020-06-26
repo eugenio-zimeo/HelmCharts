@@ -25,6 +25,8 @@ spec:
         release: {{ .Release.Name | quote }}
         component: master
     spec:
+      securityContext:
+        fsGroup: 200
       affinity:
         podAntiAffinity:
         {{- if eq .Values.antiAffinity "hard" }}
@@ -48,22 +50,9 @@ spec:
         {{- end }}
       strategy:
         type: Recreate
-      initContainers:
-      - name: configure-cluster
-        image: "{{ .Values.image.image }}:{{ .Values.image.imageTag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-        imagePullSecrets: {{ toYaml .Values.image.pullSecrets }}
-        command: ["/bin/sh", "/opt/configure-master/configure-cluster.sh"] #esegue il comando presente nel configmap
-        volumeMounts:
-          - name: config-override #questa è una directory vuota
-            mountPath: /var/lib/artemis/etc-override
-          - name: configure-common #qui c'è template-common
-            mountPath: /opt/configure-common
-          - name: configure-master #qui ci sono template master e configure-master
-            mountPath: /opt/configure-master
       containers:
       - name: {{ include "artemis.fullname" . }}
-        image: "{{ .Values.image.image }}:{{ .Values.image.imageTag }}"
+        image: {{ template "artemis.image" . }}
         imagePullPolicy: {{ .Values.image.imagePullPolicy | quote }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
@@ -99,23 +88,14 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
         volumeMounts:
-        - name: data #questa è persistente
-          mountPath: /var/lib/artemis/data
-        - name: config-override #questa è un empty dir
-          mountPath: /var/lib/artemis/etc-override
-        - name: configure-common #qui c'è template common
-          mountPath: /opt/configure-common
-        - name: configure-master #qui c'è template master e configure master
-          mountPath: /opt/configure-master
+        - name: data
+          mountPath: /var/lib/artemis-instance/data
+        - name: configure
+          mountPath: /opt/configure
       volumes:
-      - name: config-override
-        emptyDir: {}
-      - name: configure-common
+      - name: configure
         configMap:
-          name: {{ include "artemis.fullname" . }}-configure-common
-      - name: configure-master
-        configMap:
-          name: {{ include "artemis.fullname" . }}-configure-master
+          name: {{ include "artemis.fullname" . }}-configure
 {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
   - metadata:
