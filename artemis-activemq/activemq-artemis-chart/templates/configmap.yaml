@@ -12,6 +12,7 @@ data:
 
         <cluster-user>exampleUser</cluster-user>
         <cluster-password>secret</cluster-password>
+        <journal-directory>/var/lib/artemis/./data/journal/server</journal-directory>
 
         {{- $name := default .Chart.Name .Values.nameOverride -}}
         {{- $fullname := include "artemis.fullname" . -}}

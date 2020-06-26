@@ -30,7 +30,7 @@ spec:
         type: Recreate
       initContainers:
       - name: configure-cluster
-        image: {{ template "artemis.image" . }}
+        image: "{{ .Values.image.image }}:{{ .Values.image.imageTag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         imagePullSecrets: {{ toYaml .Values.image.pullSecrets }}
         command: ["/bin/sh", "/opt/configure-slave/configure-cluster.sh"]
@@ -43,7 +43,7 @@ spec:
             mountPath: /opt/configure-slave
       containers:
       - name: {{ include "artemis.fullname" . }}
-        image: {{ template "artemis.image" . }}
+        image: "{{ .Values.image.image }}:{{ .Values.image.imageTag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
