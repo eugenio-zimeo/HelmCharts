@@ -26,10 +26,14 @@ spec:
             value: "{{ .Values.acceptLicenseAgreement }}"
           - name: NEO4J_dbms_mode
             value: READ_REPLICA
+          - name: NEO4J_dbms_memory_heap_max__size
+            value: "1G"
           - name: NEO4J_dbms_security_auth__enabled
             value: "{{ .Values.authEnabled }}"
           - name: NEO4J_causal__clustering_discovery__type
             value: DNS
+          - name: NEO4J_dbms_security_procedures_unrestricted
+            value: "apoc.\\*,algo.\\*"
           - name: NEO4J_causal__clustering_initial__discovery__members
             value: "{{ template "neo4j.fullname" . }}.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}:5000"
           {{- if .Values.authEnabled }}
