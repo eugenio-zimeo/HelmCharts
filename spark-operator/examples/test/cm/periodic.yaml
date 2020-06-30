@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: periodic
+  labels:
+    radanalytics.io/kind: SparkApplication
+data:
+  config: |-
+    image: quay.io/jkremser/openshift-spark:2.3-latest
+    mainApplicationFile: http://192.168.10.3:80/sparkpi-1.0-SNAPSHOT-jar-with-dependencies.jar
+    mainClass: unisannio.JavaSparkPi
+    #arguments: "k8s://https://172.30.0.1:443 bolt://neo4j-neo4j-core-0.progetto2.svc:7687 neo4j password d w dist 6 0 . 0.1 100000"
+    sleep: 120 # repeat each 5 minutes
+    driver:
+      cores: 1
+      coreLimit: 3000m
+      memory: 1g
+    executor:
+      instances: 1
+      cores: 1
+      coreLimit: 4000m
+      memory: 1g
