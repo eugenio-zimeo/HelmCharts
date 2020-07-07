@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ template "neo4j.replica.fullname" . }}-service"
+spec:
+  type: NodePort
+  externalTrafficPolicy: Cluster
+  selector:
+    app: neo4j
+    component: replica
+    release: neo4j
+  ports:
+    - name: broswer
+      nodePort: 31400
+      port: 7474
+      protocol: TCP
+      targetPort: 7474
+    - name: bolt
+      nodePort: 31401
+      port: 7687
+      protocol: TCP
+      targetPort: 7687
